@@ -31,16 +31,19 @@ const AgeGender = () => {
     setFilters(queryData);
   };
 
+  type Parsed = {
+    startDate: string;
+    endDate: string;
+    age: number;
+    gender: string;
+  };
+
   useEffect(() => {
     const cookieData = Cookie.get("filters");
     if (!cookieData) return;
 
-    const parsed: {
-      startDate: string;
-      endDate: string;
-      age: number;
-      gender: string;
-    } = JSON.parse(cookieData!); // @ts-ignore
+    // @ts-ignore
+    const parsed: Parsed = JSON.parse(cookieData!);
 
     if (parsed) {
       const params = new URLSearchParams(searchParams);
@@ -52,7 +55,7 @@ const AgeGender = () => {
 
       router.replace(`${pathname}?${params.toString()}`);
     }
-  }, [handleSubmit]); // @ts-ignore
+  }, [handleSubmit]);
 
   return (
     <>
