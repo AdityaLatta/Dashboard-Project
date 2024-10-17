@@ -98,11 +98,11 @@ const BarChart = ({
 
         onClick: (event: ChartEvent) => {
           const activePoints = myBarChart.getElementsAtEventForMode(
-            event.native as Event,
+            event!.native as Event, // ts-ignore
             "nearest",
             { intersect: true },
             true,
-          );
+          ); // ts-ignore
 
           if (activePoints.length > 0) {
             const index = activePoints[0]?.index; // Get the index of the clicked bar

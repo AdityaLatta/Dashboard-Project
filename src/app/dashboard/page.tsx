@@ -55,7 +55,7 @@ export default function Dashboard() {
       router.push("/login");
       dialog.current?.close();
     }
-  }, [isSuccess]);
+  }, [isSuccess]); // ts-ignore
 
   useEffect(() => {
     setlineData(stats.A);
