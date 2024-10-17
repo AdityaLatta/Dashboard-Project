@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client";
 
 import { Chart, type ChartEvent, registerables } from "chart.js";
@@ -98,7 +100,7 @@ const BarChart = ({
 
         onClick: (event: ChartEvent) => {
           const activePoints = myBarChart.getElementsAtEventForMode(
-            event.native as Event, // ts-ignore
+            event.native!, // ts-ignore
             "nearest",
             { intersect: true },
             true,

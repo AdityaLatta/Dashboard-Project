@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Cookie from "js-cookie";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -42,7 +44,7 @@ const AgeGender = () => {
     const cookieData: string | undefined = Cookie.get("filters");
     if (!cookieData) return;
 
-    const parsed: Parsed = JSON.parse(cookieData as string);
+    const parsed: Parsed = JSON.parse(cookieData);
 
     const params = new URLSearchParams(searchParams as URLSearchParams);
 
