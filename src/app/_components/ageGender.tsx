@@ -39,23 +39,19 @@ const AgeGender = () => {
   };
 
   useEffect(() => {
-    const cookieData = Cookie.get("filters");
+    const cookieData: string | undefined = Cookie.get("filters");
     if (!cookieData) return;
 
-    // ts-ignore
-    const parsed: Parsed = JSON.parse(cookieData!);
-    // ts-ignore
-    if (parsed) {
-      const params = new URLSearchParams(searchParams);
+    const parsed: Parsed = JSON.parse(cookieData);
 
-      params.set("startDate", parsed.startDate);
-      params.set("endDate", parsed.endDate);
-      params.set("age", parsed.age.toString());
-      params.set("gender", parsed.gender);
+    const params = new URLSearchParams(searchParams as URLSearchParams);
 
-      router.replace(`${pathname}?${params.toString()}`);
-    }
-    // ts-ignore
+    params.set("startDate", parsed.startDate);
+    params.set("endDate", parsed.endDate);
+    params.set("age", parsed.age.toString());
+    params.set("gender", parsed.gender);
+
+    router.replace(`${pathname}?${params.toString()}`);
   }, [handleSubmit]);
 
   return (
