@@ -1,108 +1,111 @@
 "use client";
 
 import { Chart, registerables } from "chart.js";
-import zoomPlugin from "chartjs-plugin-zoom";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useStats } from "../context/stats";
 
-Chart.register(...registerables, zoomPlugin);
+import zoomPlugin from "chartjs-plugin-zoom";
 
-const LineChart = ({ lineData }: { lineData: React.ReactNode }) => {
+const LineChart = ({ lineData }: { lineData: (number | null)[] }) => {
   const { stats } = useStats();
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const ctx = chartRef.current?.getContext("2d");
+    if (chartRef.current) {
+      const ctx = chartRef.current?.getContext("2d");
 
-    if (!ctx) return;
+      if (!ctx) return;
 
-    const myLineChart = new Chart(ctx, {
-      type: "line", // Specify the type of chart
-      data: {
-        labels: stats.dates, // X-axis labels
-        datasets: [
-          {
-            data: lineData,
-            backgroundColor: "#4472C4", // Bar color (blue)
-            borderColor: "#4472C4", // Border color (blue)
-            borderWidth: 1, // Border width
-            hoverBackgroundColor: "#C55A11", // Bar color when hovered (red)
-            hoverBorderColor: "#4472C4",
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: "Axis Title", // X-axis title
-            },
-            grid: {
-              display: false,
-              offset: true,
-            },
-            offset: true, // Add offset to the x-axis to create space
-            ticks: {
-              font: {
-                size: 10,
-              },
-              padding: 10,
-            },
-          },
+      Chart.register(...registerables, zoomPlugin);
 
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: "Axis Title", // Y-axis title
+      const myLineChart = new Chart(ctx, {
+        type: "line", // Specify the type of chart
+        data: {
+          labels: stats.dates, // X-axis labels
+          datasets: [
+            {
+              data: lineData,
+              backgroundColor: "#4472C4", // Bar color (blue)
+              borderColor: "#4472C4", // Border color (blue)
+              borderWidth: 1, // Border width
+              hoverBackgroundColor: "#C55A11", // Bar color when hovered (red)
+              hoverBorderColor: "#4472C4",
             },
-          },
+          ],
         },
-        plugins: {
-          tooltip: {
-            enabled: false,
-          },
-          legend: {
-            display: false,
-          },
-          title: {
-            display: true,
-            text: "Chart Title", // Chart titl
-            font: {
-              size: 16,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Axis Title", // X-axis title
+              },
+              grid: {
+                display: false,
+                offset: true,
+              },
+              offset: true, // Add offset to the x-axis to create space
+              ticks: {
+                font: {
+                  size: 10,
+                },
+                padding: 10,
+              },
             },
-            padding: {
-              top: 0,
-              bottom: 15,
+
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Axis Title", // Y-axis title
+              },
             },
           },
-          zoom: {
-            pan: {
-              enabled: true, // Enable panning
-              mode: "x", // You can also use 'y' or 'xy'
+          plugins: {
+            tooltip: {
+              enabled: false,
+            },
+            legend: {
+              display: false,
+            },
+            title: {
+              display: true,
+              text: "Chart Title", // Chart titl
+              font: {
+                size: 16,
+              },
+              padding: {
+                top: 0,
+                bottom: 15,
+              },
             },
             zoom: {
-              mode: "x", // You can also use 'y' or 'xy'
-              wheel: {
-                enabled: true, // Enable zooming via mouse wheel
+              pan: {
+                enabled: true, // Enable panning
+                mode: "x", // You can also use 'y' or 'xy'
               },
-              pinch: {
-                enabled: true, // Enable zooming via touch gestures
+              zoom: {
+                mode: "x", // You can also use 'y' or 'xy'
+                wheel: {
+                  enabled: true, // Enable zooming via mouse wheel
+                },
+                pinch: {
+                  enabled: true, // Enable zooming via touch gestures
+                },
               },
             },
           },
         },
-      },
-    });
+      });
 
-    // Cleanup chart when component unmounts
-    return () => {
-      myLineChart.destroy();
-    };
+      // Cleanup chart when component unmounts
+      return () => {
+        myLineChart.destroy();
+      };
+    }
   }, [stats, lineData]);
 
   return (

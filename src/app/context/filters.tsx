@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import moment from "moment";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
+import { Suspense } from "react";
+import Loader from "../_components/loader";
 
 type Filters = {
   filters: {
@@ -24,6 +26,14 @@ type Filters = {
 };
 
 export const FiltersContext = React.createContext<Filters | null>(null);
+
+const FallbackLoader = () => {
+  return (
+    <section className="flex h-screen w-full items-center justify-center">
+      <Loader />
+    </section>
+  );
+};
 
 export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
@@ -56,9 +66,11 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <FiltersContext.Provider value={{ filters, setFilters }}>
-      {children}
-    </FiltersContext.Provider>
+    <Suspense fallback={<FallbackLoader />}>
+      <FiltersContext.Provider value={{ filters, setFilters }}>
+        {children}
+      </FiltersContext.Provider>
+    </Suspense>
   );
 }
 

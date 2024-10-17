@@ -6,12 +6,17 @@ import { useEffect, useRef, useState } from "react";
 import { useStats } from "../context/stats";
 import Logout from "../_components/logout";
 import BarChart from "../_components/barChart";
-import LineChart from "../_components/lineChart";
 import AgeGender from "../_components/ageGender";
 import Loader from "../_components/loader";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
 import Me from "../_components/me";
+
+import dynamic from "next/dynamic";
+
+const LineChart = dynamic(() => import("../_components/lineChart"), {
+  ssr: false,
+});
 
 export default function Dashboard() {
   const { stats } = useStats();
@@ -27,7 +32,10 @@ export default function Dashboard() {
   });
 
   const handleClearFilters = () => {
-    Cookie.remove("filters");
+    if (typeof window !== "undefined") {
+      Cookie.remove("filters");
+    }
+
     router.push(pathname);
 
     setTimeout(() => {
@@ -90,7 +98,7 @@ export default function Dashboard() {
               {stats.isLoading && <Loader />}
             </div>
           </div>
-          <div className="relative col-span-12 row-span-12 h-full md:col-span-6">
+          <div className="relative col-span-12 row-span-12 h-full rounded-lg bg-white md:col-span-6">
             <LineChart lineData={lineData} />
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               {stats.isLoading && <Loader />}
