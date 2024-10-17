@@ -42,9 +42,9 @@ const AgeGender = () => {
     const cookieData = Cookie.get("filters");
     if (!cookieData) return;
 
-    // @ts-ignore
+    // ts-ignore
     const parsed: Parsed = JSON.parse(cookieData!);
-
+    // ts-ignore
     if (parsed) {
       const params = new URLSearchParams(searchParams);
 
@@ -55,6 +55,7 @@ const AgeGender = () => {
 
       router.replace(`${pathname}?${params.toString()}`);
     }
+    // ts-ignore
   }, [handleSubmit]);
 
   return (
