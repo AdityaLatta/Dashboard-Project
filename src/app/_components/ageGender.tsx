@@ -1,10 +1,8 @@
 import Cookie from "js-cookie";
-import moment from "moment";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFilters } from "../context/filters";
 import DateRangePicker from "./dateRangePicker";
-import { useRouter as useRouter2 } from "next/router";
 
 type QueryData = {
   startDate: Date;
@@ -20,7 +18,7 @@ const AgeGender = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const handleOption = (e: any) => {
+  const handleOption = (e: React.ChangeEvent<HTMLInputElement>) => {
     setqueryData({
       ...filters,
       age: e.target.name === "age" ? parseInt(e.target.value) : queryData.age,

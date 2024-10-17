@@ -1,6 +1,6 @@
 "use client";
 
-import { Chart, registerables } from "chart.js";
+import { Chart, ChartEvent, registerables } from "chart.js";
 import React, { useEffect, useRef } from "react";
 import { useStats } from "../context/stats";
 
@@ -9,13 +9,13 @@ Chart.register(...registerables);
 const BarChart = ({
   setlineData,
 }: {
-  setlineData: React.Dispatch<React.SetStateAction<any>>;
+  setlineData: React.Dispatch<React.SetStateAction<(number | null)[]>>;
 }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   const { stats } = useStats();
 
-  var originalColors = [
+  const originalColors = [
     "#C55A11",
     "#4472C4",
     "#4472C4",
@@ -96,9 +96,9 @@ const BarChart = ({
           },
         },
 
-        onClick: (event: any, elements) => {
+        onClick: (event: ChartEvent) => {
           const activePoints = myBarChart.getElementsAtEventForMode(
-            event,
+            event.native as Event,
             "nearest",
             { intersect: true },
             true,
@@ -110,12 +110,15 @@ const BarChart = ({
             originalColors[0] = "#4472C4";
 
             // Reset all bars to original colors
-            (myBarChart.data.datasets as any)[0].backgroundColor =
+            myBarChart.data.datasets[0]!.backgroundColor =
               originalColors.slice();
 
             // Highlight only the clicked bar
-            (myBarChart.data.datasets as any)[0].backgroundColor[index!] =
-              "#C55A11"; // Highlight color
+            const newBackgroundColor = [
+              ...myBarChart.data.datasets[0]!.backgroundColor,
+            ];
+            newBackgroundColor[index!] = "#C55A11";
+            myBarChart.data.datasets[0]!.backgroundColor = newBackgroundColor;
 
             // Update the chart to reflect changes
             myBarChart.update();
@@ -124,22 +127,22 @@ const BarChart = ({
 
             switch (label) {
               case "a":
-                setlineData(stats.A);
+                setlineData(stats.A as number[]);
                 break;
               case "b":
-                setlineData(stats.B);
+                setlineData(stats.B as number[]);
                 break;
               case "c":
-                setlineData(stats.C);
+                setlineData(stats.C as number[]);
                 break;
               case "d":
-                setlineData(stats.D);
+                setlineData(stats.D as number[]);
                 break;
               case "e":
-                setlineData(stats.E);
+                setlineData(stats.E as number[]);
                 break;
               case "f":
-                setlineData(stats.F);
+                setlineData(stats.F as number[]);
                 break;
             }
           }

@@ -13,12 +13,13 @@ export const dashboardDataRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      let { startDate, endDate, age, gender } = input;
+      let { startDate, endDate } = input;
+      const { age, gender } = input;
 
       startDate = moment(startDate).add(1, "days").startOf("day").toDate();
       endDate = moment(endDate).add(1, "days").startOf("day").toDate();
 
-      let obj = {
+      const obj = {
         gte: 0,
         lte: 0,
       };
@@ -97,7 +98,7 @@ export const dashboardDataRouter = createTRPCRouter({
         "Dec",
       ];
 
-      for (let i of detailed) {
+      for (const i of detailed) {
         dates.push(i.day.getDate() + " " + months[i.day.getMonth()]);
         A.push(i.a);
         B.push(i.b);

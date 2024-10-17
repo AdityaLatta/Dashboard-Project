@@ -25,24 +25,25 @@ export const FiltersContext = React.createContext<Filters | null>(null);
 
 export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
-  let savedFilters = Cookies.get("filters");
-  let data = savedFilters
-    ? JSON.parse(savedFilters)
-    : {
-        startDate: moment("2022-10-10").startOf("day").toDate(),
-        endDate: moment("2022-10-20").startOf("day").toDate(),
-        age: 20,
-        gender: "male",
-      };
+  const savedFilters = Cookies.get("filters");
+  const data: { startDate: Date; endDate: Date; age: number; gender: string } =
+    savedFilters
+      ? JSON.parse(savedFilters)
+      : {
+          startDate: moment("2022-10-10").startOf("day").toDate(),
+          endDate: moment("2022-10-20").startOf("day").toDate(),
+          age: 20,
+          gender: "male",
+        };
 
   const start =
     searchParams.size > 0
-      ? moment(searchParams.get("startDate")!).startOf("day").toDate()
+      ? moment(searchParams.get("startDate")).startOf("day").toDate()
       : moment(data.startDate).startOf("day").toDate();
 
   const end =
     searchParams.size > 0
-      ? moment(searchParams.get("endDate")!).startOf("day").toDate()
+      ? moment(searchParams.get("endDate")).startOf("day").toDate()
       : moment(data.endDate).startOf("day").toDate();
 
   const [filters, setFilters] = useState({
@@ -63,7 +64,7 @@ export function useFilters(): {
   filters: Filters["filters"];
   setFilters: Filters["setFilters"];
 } {
-  let data = React.useContext(FiltersContext);
+  const data = React.useContext(FiltersContext);
 
   if (!data) {
     throw new Error("useFilters must be used within a FiltersProvider");

@@ -119,7 +119,7 @@ export function StatsProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useStats(): { stats: Stats } {
-  let data = React.useContext(StatsContext);
+  const data = React.useContext(StatsContext);
 
   if (!data) {
     throw new Error("useStats must be used within a StatsProvider");

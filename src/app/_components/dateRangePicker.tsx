@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import moment from "moment";
 import { DateRangePicker as Picker } from "react-bootstrap-daterangepicker";
 import { useFilters } from "../context/filters";
-import { min } from "date-fns";
+import React from "react";
 
 interface DateRangePickerProps {
   queryData: {
@@ -28,7 +28,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 }) => {
   const { filters } = useFilters();
 
-  const handleApply = (event: any, picker: any) => {
+  const handleApply = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    picker: {
+      startDate: { _d: string };
+      endDate: { _d: string };
+    },
+  ) => {
     const startDate = moment(picker.startDate._d).startOf("day").toDate();
     const endDate = moment(picker.endDate._d).startOf("day").toDate();
 

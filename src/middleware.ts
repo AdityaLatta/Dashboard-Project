@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { env } from "process";
 
 export async function middleware(request: NextRequest) {
-  let token = request.cookies.get("token");
+  const token = request.cookies.get("token");
 
   if (!token) {
     const { searchParams } = request.nextUrl;
@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    let obj = {
+    const obj = {
       startDate: searchParams.get("startDate"),
       endDate: searchParams.get("endDate"),
       age: searchParams.get("age"),
@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
     }
 
     return NextResponse.next();
-  } catch (error) {
+  } catch {
     const response = NextResponse.redirect(new URL("/login", request.url));
 
     response.cookies.delete("token");

@@ -144,7 +144,10 @@ export const authRouter = createTRPCRouter({
     }
 
     try {
-      const { payload }: any = await jwtVerify(token, secret);
+      const {
+        payload,
+      }: { payload: { id: string; name: string; email: string } } =
+        await jwtVerify(token, secret);
 
       const user = await ctx.db.user.findUnique({
         where: {
@@ -161,7 +164,7 @@ export const authRouter = createTRPCRouter({
       }
 
       return user;
-    } catch (error) {
+    } catch {
       return null;
     }
   }),

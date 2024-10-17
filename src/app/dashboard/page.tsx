@@ -15,7 +15,7 @@ import Me from "../_components/me";
 
 export default function Dashboard() {
   const { stats } = useStats();
-  const [lineData, setlineData] = useState(stats.A);
+  const [lineData, setlineData] = useState<(number | null)[]>(stats.A);
   const router = useRouter();
   const pathname = usePathname();
   const dialog = useRef<HTMLDialogElement | null>(null);
