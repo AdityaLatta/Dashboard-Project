@@ -42,7 +42,7 @@ const AgeGender = () => {
     const cookieData: string | undefined = Cookie.get("filters");
     if (!cookieData) return;
 
-    const parsed: Parsed = JSON.parse(cookieData);
+    const parsed: Parsed = JSON.parse(cookieData as string);
 
     const params = new URLSearchParams(searchParams as URLSearchParams);
 
