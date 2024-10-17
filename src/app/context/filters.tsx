@@ -26,15 +26,15 @@ export const FiltersContext = React.createContext<Filters | null>(null);
 export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const savedFilters = Cookies.get("filters");
-  const data: { startDate: Date; endDate: Date; age: number; gender: string } =
+  const data: { startDate: Date; endDate: Date; age: number; gender: string } = // @ts-ignore
     savedFilters
-      ? JSON.parse(savedFilters) // @ts-ignore
+      ? JSON.parse(savedFilters)
       : {
           startDate: moment("2022-10-10").startOf("day").toDate(),
           endDate: moment("2022-10-20").startOf("day").toDate(),
           age: 20,
           gender: "male",
-        }; // @ts-ignore
+        };
 
   const start =
     searchParams.size > 0
@@ -49,8 +49,8 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const [filters, setFilters] = useState({
     startDate: start,
     endDate: end,
-    age: Number(searchParams.get("age")) || Number(data.age), // @ts-ignore
-    gender: searchParams.get("gender") || data.gender, // @ts-ignore
+    age: Number(searchParams.get("age")) || Number(data.age),
+    gender: searchParams.get("gender") || data.gender,
   });
 
   return (

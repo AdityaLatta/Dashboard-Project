@@ -40,7 +40,8 @@ const AgeGender = () => {
       endDate: string;
       age: number;
       gender: string;
-    } = JSON.parse(cookieData);
+    } = JSON.parse(cookieData!); // @ts-ignore
+
     if (parsed) {
       const params = new URLSearchParams(searchParams);
 
@@ -51,7 +52,7 @@ const AgeGender = () => {
 
       router.replace(`${pathname}?${params.toString()}`);
     }
-  }, [handleSubmit]);
+  }, [handleSubmit]); // @ts-ignore
 
   return (
     <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Chart, ChartEvent, registerables } from "chart.js";
+import { Chart, type ChartEvent, registerables } from "chart.js";
 import React, { useEffect, useRef } from "react";
 import { useStats } from "../context/stats";
 
@@ -98,7 +98,7 @@ const BarChart = ({
 
         onClick: (event: ChartEvent) => {
           const activePoints = myBarChart.getElementsAtEventForMode(
-            event!.native as Event, // ts-ignore
+            event.native as Event, // ts-ignore
             "nearest",
             { intersect: true },
             true,
@@ -179,7 +179,7 @@ const BarChart = ({
     return () => {
       myBarChart.destroy();
     };
-  }, [stats]);
+  }, [stats]); // ts-ignore
 
   return (
     <>

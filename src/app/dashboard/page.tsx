@@ -55,7 +55,7 @@ export default function Dashboard() {
       router.push("/login");
       dialog.current?.close();
     }
-  }, [isSuccess]); // ts-ignore
+  }, [isSuccess]); // eslint-disable-line
 
   useEffect(() => {
     setlineData(stats.A);
