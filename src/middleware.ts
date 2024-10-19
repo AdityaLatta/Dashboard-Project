@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
     const { searchParams } = request.nextUrl;
 
     if (searchParams.size === 0) {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL("/signup", request.url));
     }
 
     const obj = {
@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
       gender: searchParams.get("gender"),
     };
 
-    const response = NextResponse.redirect(new URL("/login", request.url));
+    const response = NextResponse.redirect(new URL("/signup", request.url));
 
     // Set a cookie
     response.cookies.set("filters", JSON.stringify(obj));
@@ -36,12 +36,12 @@ export async function middleware(request: NextRequest) {
     );
 
     if (!payload) {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL("/signup", request.url));
     }
 
     return NextResponse.next();
   } catch {
-    const response = NextResponse.redirect(new URL("/login", request.url));
+    const response = NextResponse.redirect(new URL("/signup", request.url));
 
     response.cookies.delete("token");
 
