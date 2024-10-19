@@ -1,20 +1,21 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/trpc/react";
 import Button from "../_components/button";
 import Input from "../_components/input";
-import { useRouter } from "next/navigation";
 
 const Login = () => {
   const router = useRouter();
 
-  const { mutate: login, isPending } = api.auth.login.useMutation({
-    onSuccess: () => {
-      toast.success("Logged in successfully");
-
-      router.push("/dashboard");
-    },
+  const {
+    mutate: login,
+    data,
+    isPending,
+    isSuccess,
+  } = api.auth.login.useMutation({
     onError: (error) => {
       toast.error(error.message);
     },
@@ -29,6 +30,13 @@ const Login = () => {
 
     login({ email, password });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Logged in successfully");
+      router.push("/dashboard");
+    }
+  }, [isSuccess, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

@@ -1,3 +1,5 @@
+"use client";
+
 import "bootstrap-daterangepicker/daterangepicker.css";
 import "bootstrap/dist/css/bootstrap.css";
 import moment from "moment";
