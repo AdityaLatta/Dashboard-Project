@@ -29,7 +29,7 @@ const AgeGender = () => {
   };
 
   const handleSubmit = () => {
-    Cookie.set("filters", JSON.stringify(queryData));
+    Cookie.set("filters", JSON.stringify(queryData), { expires: 10 });
     setFilters(queryData);
   };
 
