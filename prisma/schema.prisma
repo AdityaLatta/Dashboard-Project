@@ -2,40 +2,40 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id        String   @id @default(uuid())
-    name      String
-    email     String   @unique
-    password  String
-    createdAt DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
 
-    @@index([email])
+  @@index([email])
 }
 
 enum Gender {
-    male
-    female
+  male
+  female
 }
 
 model Dashboard_data {
-    id     Int      @id @default(autoincrement())
-    day    DateTime @db.Date
-    age    Int
-    gender Gender
-    a      Int
-    b      Int
-    c      Int
-    d      Int
-    e      Int
-    f      Int
+  id     Int      @id @default(autoincrement())
+  day    DateTime @db.Date
+  age    Int
+  gender Gender
+  a      Int
+  b      Int
+  c      Int
+  d      Int
+  e      Int
+  f      Int
 
-    @@index([day])
+  @@index([day])
 }
